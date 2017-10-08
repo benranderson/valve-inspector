@@ -1,10 +1,19 @@
 {% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
 
 {% block page_content %}
     <div class="container">
-        <h1>Details</h1>
-        <p>Tag: {{ valve.tag }}</p>
-        <p>Size: {{ valve.size }}</p>
+        <p><a href="{{ url_for('main.index') }}"><button type="button" class="btn btn-default">Back</button></a></p>
+        <h1>Valve Details</h1>
+        <table class="table table-hover valves">
+            <tr><td>Tag</td><td>{{ valve.tag }}</td></tr>
+            <tr><td>Size</td><td>{{ valve.size }} mm</td></tr>
+            <tr><td>Current Status</td><td>{{ logs[-1].status.capitalize() }}</td></tr>
+        </table>
+        <h1>Add a new log</h1>
+        <div>
+            {{ wtf.quick_form(form) }}
+        </div>
         <h1>Logs</h1>
         <table class="table table-hover logs">
             <thead><tr><th>Time</th><th>Status</th></tr></thead>

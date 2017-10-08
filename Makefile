@@ -15,3 +15,17 @@ lint:
 
 test:
 	py.test tests
+
+deploy:
+	git add .
+	git commit -m "$(message)"
+	git push origin master
+	heroku maintenance:on
+	git push heroku master
+	heroku run python manage.py deploy
+	heroku restart
+	heroku maintenance:off
+
+action:
+	git add .
+	git commit -m "$(message)"

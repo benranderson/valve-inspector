@@ -9,7 +9,7 @@ class Valve(db.Model):
     __tablename__ = 'valves'
 
     id = db.Column(db.Integer, primary_key=True)
-    tag = db.Column(db.String(5), nullable=False)
+    tag = db.Column(db.String, nullable=False)
     size = db.Column(db.Float, nullable=False)
     logs = db.relationship('Log', backref='valve', lazy='dynamic')
 
@@ -35,10 +35,6 @@ class Valve(db.Model):
         if size is None or size == '':
             raise ValidationError('valve does not have a size')
         return Valve(tag=tag, size=size)
-
-    @property
-    def current_status(self):
-        return self.status_log[-1]
 
 
 class Log(db.Model):

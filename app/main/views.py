@@ -1,9 +1,9 @@
 from flask import request, render_template, url_for, redirect, Response
 
 from app.main import main
-from app.main.forms import ValveForm
+from app.main.forms import ValveForm, LogForm
 from app import db
-from app.models import Valve
+from app.models import Valve, Log
 
 
 @main.route('/', methods=['GET', 'POST'])
@@ -17,8 +17,14 @@ def index():
     return render_template('index.html', form=form, valves=valves)
 
 
-@main.route('/valve/<tag>')
+@main.route('/valve/<tag>', methods=['GET', 'POST'])
 def valve(tag):
+    form = LogForm()
     valve = Valve.query.filter_by(tag=tag).first()
+    if form.validate_on_submit():
+        log = Log(time=form.time.data, status=form.status.data)
+        log.valve = valve
+        db.session.add(log)
+        return redirect(url_for('.valve', tag=tag))
     logs = valve.logs
-    return render_template('valve.html', valve=valve, logs=logs)
+    return render_template('valve.html', form=form, valve=valve, logs=logs)
