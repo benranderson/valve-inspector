@@ -8,7 +8,7 @@
         <table class="table table-hover valves">
             <tr><td>Tag</td><td>{{ valve.tag }}</td></tr>
             <tr><td>Size</td><td>{{ valve.size }} mm</td></tr>
-            <tr><td>Current Status</td><td>{{ logs[-1].status.capitalize() }}</td></tr>
+            <tr><td>Current Status</td><td>{{ current_status.capitalize() }}</td></tr>
         </table>
         <h1>Add a new log</h1>
         <div>

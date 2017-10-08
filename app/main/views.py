@@ -27,4 +27,6 @@ def valve(tag):
         db.session.add(log)
         return redirect(url_for('.valve', tag=tag))
     logs = valve.logs
-    return render_template('valve.html', form=form, valve=valve, logs=logs)
+    current_status = logs[-1].status
+    return render_template('valve.html', form=form, valve=valve, logs=logs,
+                           current_status=current_status)
