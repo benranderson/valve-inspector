@@ -13,9 +13,15 @@ h1, h2, h3, h4 {
 .jumbotron {
     font-family: 'Source Sans Pro', sans-serif;
     padding: 20 !important;
-    color: #fff;
-    background-color: rgb(34, 255, 181);
+    color: #FFFFFF;
+    background-color: #607D8B;
     text-align: center;
+}
+
+.btn-valve {
+  background-color: #CFD8DC;
+  border-color: #CFD8DC;
+  color: #757575;
 }
 
 /* footer */

@@ -1,5 +1,19 @@
 {% extends "base.html" %}
 
 {% block page_content %}
-    {{ valve }}
+    <div class="container">
+        <h1>Details</h1>
+        <p>Tag: {{ valve.tag }}</p>
+        <p>Size: {{ valve.size }}</p>
+        <h1>Logs</h1>
+        <table class="table table-hover logs">
+            <thead><tr><th>Time</th><th>Status</th></tr></thead>
+            {% for log in logs %}
+                <tr>
+                    <td>{{ log.time }}</td>    
+                    <td>{{ log.status }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
 {% endblock %}

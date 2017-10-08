@@ -20,4 +20,5 @@ def index():
 @main.route('/valve/<tag>')
 def valve(tag):
     valve = Valve.query.filter_by(tag=tag).first()
-    return render_template('valve.html', valve=valve)
+    logs = valve.logs
+    return render_template('valve.html', valve=valve, logs=logs)
