@@ -25,7 +25,3 @@ deploy:
 	heroku run python manage.py deploy
 	heroku restart
 	heroku maintenance:off
-
-action:
-	git add .
-	git commit -m "$(message)"
