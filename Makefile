@@ -18,7 +18,7 @@ test:
 
 deploy:
 	git add .
-	git commit -m "$(message)"
+	git commit -m "$(m)"
 	git push origin master
 	heroku maintenance:on
 	git push heroku master

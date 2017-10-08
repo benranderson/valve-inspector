@@ -27,6 +27,11 @@ def valve(tag):
         db.session.add(log)
         return redirect(url_for('.valve', tag=tag))
     logs = valve.logs
-    current_status = logs[-1].status
+
+    if len(logs.all()) > 0:
+        current_status = logs.all()[-1].status
+    else:
+        current_status = "No status logged"
+
     return render_template('valve.html', form=form, valve=valve, logs=logs,
                            current_status=current_status)
