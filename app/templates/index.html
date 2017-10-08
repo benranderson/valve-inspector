@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block page_content %}
+    <div class="jumbotron">
+        <h1>Valve Inspector!  <i class="mdi mdi-tag-multiple"></i></h1>
+    </div>
+
+    <div class="container">
+        <div>
+            {{ wtf.quick_form(form) }}
+        </div>
+
+        <ul class="valves">
+            {% for valve in valves %}
+                <li class="valve">
+                    <div class="valve-thumbnail">
+                        <a href="{{ url_for('.valve', tag=valve.tag) }}">
+                            <p>{{ valve.tag }}</p>
+                        </a>
+                    </div>
+                    <div class="valve-details">
+                        <p>{{ valve.tag }}</p>
+                        <p>{{ valve.size }}</p>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+{%- endblock %}

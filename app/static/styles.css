@@ -1,0 +1,57 @@
+body {
+    /* Background pattern from Subtle Patterns */
+    /* background: url(http://subtlepatterns.com/patterns/fabric_of_squares_gray.png) repeat 0 0; */   
+    background-color: #FFFFFF;
+    padding-bottom: 50px;
+}
+
+h1, h2, h3, h4 {
+    color: #212121;
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.jumbotron {
+    font-family: 'Source Sans Pro', sans-serif;
+    padding: 20 !important;
+    color: #fff;
+    background-color: rgb(34, 255, 181);
+    text-align: center;
+}
+
+/* footer */
+
+footer {
+    margin-top: 45px;
+    padding-top: 5px;
+    border-top: 1px solid #eaeaea;
+    color: #999999;
+  }
+  
+  footer a {
+    color: #999999;
+  }
+  
+  footer p {
+    float: right;
+    margin-right: 25px;
+  }
+  
+  footer ul {
+    list-style: none;
+  }
+  
+  footer ul li {
+    float: left;
+    margin-left: 10px;
+  }
+  
+  footer .company {
+    float: left;
+    margin-left: 25px;
+  }
+  
+  footer .footer-nav {
+    float: right;
+    margin-right: 25px;
+    list-style: none;
+  }
