@@ -4,37 +4,34 @@ from ..models import Valve, Log
 from .. import db
 
 
-@api.route("/valves/")
+@api.route("/valves/", methods=['GET'])
 def get_valves():
-    valves = Valve.query.all()
     return jsonify({
-        'valves': [valve.to_json() for valve in valves]
+        'valves': [valve.get_url() for valve in Valve.query.all()]
     })
 
 
-@api.route("/valves/<int:id>")
+@api.route("/valves/<int:id>", methods=['GET'])
 def get_valve(id):
-    valve = Valve.query.get_or_404(id)
-    return jsonify(valve.to_json())
+    return jsonify(Valve.query.get_or_404(id).export_data())
 
 
 @api.route("/valves/", methods=["POST"])
 def new_valve():
-    valve = Valve.from_json(request.json)
+    valve = Valve()
+    valve.import_data(request.json)
     db.session.add(valve)
     db.session.commit()
-    return jsonify(valve.to_json()), 201
+    return jsonify({}), 201, {'Location': valve.get_url()}
 
 
 @api.route("/valves/<int:id>", methods=["PUT"])
-def valve_update(id):
+def edit_valve(id):
     valve = Valve.query.get_or_404(id)
-    tag = request.json['tag']
-    size = request.json['size']
-    valve.tag = tag
-    valve.size = size
+    valve.import_data(request.json)
+    db.session.add(valve)
     db.session.commit()
-    return jsonify(valve.to_json())
+    return jsonify({})
 
 
 @api.route("/valves/<int:id>", methods=["DELETE"])
@@ -42,4 +39,4 @@ def valve_delete(id):
     valve = Valve.query.get_or_404(id)
     db.session.delete(valve)
     db.session.commit()
-    return jsonify(valve.to_json())
+    return jsonify({})

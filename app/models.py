@@ -4,6 +4,10 @@ from app.exceptions import ValidationError
 from app import db, ma
 
 
+class ValidationError(ValueError):
+    pass
+
+
 class Valve(db.Model):
 
     __tablename__ = 'valves'
@@ -16,25 +20,28 @@ class Valve(db.Model):
     def __repr__(self):
         return '<Valve {}>'.format(self.tag)
 
-    def to_json(self):
-        json_valve = {
-            'url': url_for('api.get_valve', id=self.id, _external=True),
+    def get_url(self):
+        return url_for('api.get_valve', id=self.id, _external=True)
+
+    def export_data(self):
+        return {
+            'self_url': self.get_url(),
             'tag': self.tag,
             'size': self.size,
             'logs': url_for('api.get_valve_logs', id=self.id, _external=True),
             'log_count': self.logs.count(),
         }
-        return json_valve
 
-    @staticmethod
-    def from_json(json_valve):
-        tag = json_valve.get('tag')
-        size = json_valve.get('size')
-        if tag is None or tag == '':
-            raise ValidationError('valve does not have a tag')
-        if size is None or size == '':
-            raise ValidationError('valve does not have a size')
-        return Valve(tag=tag, size=size)
+    def import_data(self, data):
+        try:
+            self.tag = data['tag']
+        except KeyError as e:
+            raise ValidationError('Invalid tag')
+        try:
+            self.size = data['size']
+        except KeyError as e:
+            raise ValidationError('Invalid size')
+        return self
 
 
 class Log(db.Model):
@@ -49,20 +56,25 @@ class Log(db.Model):
     def __repr__(self):
         return '<Log {}>'.format(self.status)
 
+    def get_url(self):
+        return url_for('api.get_log', id=self.id, _external=True)
+
     def to_json(self):
-        json_log = {
-            'url': url_for('api.get_log', id=self.id, _external=True),
+        return {
+            'url': self.get_url(),
             'valve': url_for('api.get_valve', id=self.valve_id, _external=True),
             'time': self.time,
             'status': self.status,
         }
-        return json_log
 
-    @staticmethod
-    def from_json(json_log):
-        time = dt.datetime.strptime(
-            json_log.get('time'), '%Y-%m-%dT%H:%M:%S.%fZ')
-        status = json_log.get('status')
-        # if time is None or time == '':
-        #     raise ValidationError('log does not have a time')
-        return Log(time=time, status=status)
+    def import_data(self, data):
+        try:
+            self.time = dt.datetime.strptime(
+                data['time'], '%Y-%m-%dT%H:%M:%S.%fZ')
+        except KeyError as e:
+            raise ValidationError('Invalid time')
+        try:
+            self.status = data['status']
+        except KeyError as e:
+            raise ValidationError('Invalid status')
+        return self
