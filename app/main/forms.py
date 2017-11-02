@@ -8,6 +8,7 @@ from wtforms.validators import Required
 class ValveForm(FlaskForm):
     tag = StringField('Tag', validators=[Required()])
     size = IntegerField('Size [in]', validators=[Required()])
+    location = StringField('Location', validators=[Required()])
     submit = SubmitField('Submit')
 
 

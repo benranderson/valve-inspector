@@ -8,6 +8,7 @@
         <table class="table table-hover valves">
             <tr><td>Tag</td><td>{{ valve.tag }}</td></tr>
             <tr><td>Size</td><td>{{ valve.size }} in</td></tr>
+            <tr><td>Location</td><td>{{ valve.location }}</td></tr>
             <tr><td>Current Status</td><td>{{ current_status }}</td></tr>
         </table>
         <form method="post" action="{{ url_for('main.valve_delete', id=valve.id) }}">
@@ -20,8 +21,8 @@
         </div>
         <br>
         <h1>Logs</h1>
-        <table class="table table-hover logs">
-            <thead><tr><th>Time</th><th>Status</th></tr></thead>
+        <table class="table table-hover">
+            <thead><tr><th>Time</th><th>Status</th><th></th></tr></thead>
             {% for log in logs %}
                 <tr>
                     <td>{{ log.date }}</td>    

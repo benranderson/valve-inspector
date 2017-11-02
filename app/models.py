@@ -17,6 +17,7 @@ class Valve(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     tag = db.Column(db.String, nullable=False, index=True, unique=True)
     size = db.Column(db.Integer)
+    location = db.Column(db.String)
     logs = db.relationship('Log', backref='valve', lazy='dynamic')
 
     def __repr__(self):
@@ -30,6 +31,7 @@ class Valve(db.Model):
             'self_url': self.get_url(),
             'tag': self.tag,
             'size': self.size,
+            'location': self.location,
             'logs': url_for('api.get_valve_logs', id=self.id, _external=True),
             'log_count': self.logs.count(),
         }
@@ -38,6 +40,7 @@ class Valve(db.Model):
         try:
             self.tag = data['tag']
             self.size = data['size']
+            self.location = data['location']
         except KeyError as e:
             raise ValidationError('Invalid valve: missing ' + e.args[0])
         return self

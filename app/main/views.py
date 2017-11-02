@@ -10,7 +10,8 @@ from app.models import Valve, Log
 def index():
     form = ValveForm()
     if form.validate_on_submit():
-        valve = Valve(tag=form.tag.data, size=form.size.data)
+        valve = Valve(tag=form.tag.data, size=form.size.data,
+                      location=form.location.data)
         db.session.add(valve)
         return redirect(url_for('.index'))
     valves = Valve.query.all()
