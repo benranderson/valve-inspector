@@ -22,7 +22,7 @@ def valve(tag):
     form = LogForm()
     valve = Valve.query.filter_by(tag=tag).first()
     if form.validate_on_submit():
-        log = Log(time=form.time.data, status=form.status.data)
+        log = Log(date=form.date.data, status=form.status.data)
         log.valve = valve
         db.session.add(log)
         return redirect(url_for('.valve', tag=tag))
@@ -35,3 +35,19 @@ def valve(tag):
 
     return render_template('valve.html', form=form, valve=valve, logs=logs,
                            current_status=current_status)
+
+
+@main.route('/valve/<int:id>/delete', methods=['POST'])
+def valve_delete(id):
+    valve = Valve.query.get_or_404(id)
+    db.session.delete(valve)
+    db.session.commit()
+    return redirect(url_for('.index'))
+
+
+@main.route('/valve/<tag>/log/<int:log_id>/delete', methods=['POST'])
+def log_delete(tag, log_id):
+    log = Log.query.get_or_404(log_id)
+    db.session.delete(log)
+    db.session.commit()
+    return redirect(url_for('.valve', tag=tag))

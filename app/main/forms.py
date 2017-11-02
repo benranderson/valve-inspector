@@ -1,20 +1,20 @@
+from datetime import datetime
 from flask_wtf import FlaskForm
-from wtforms import StringField, DecimalField, SubmitField, DateTimeField, SelectField
+from wtforms import StringField, IntegerField, SubmitField, DateTimeField, \
+    SelectField
 from wtforms.validators import Required
-import datetime as dt
 
 
 class ValveForm(FlaskForm):
     tag = StringField('Tag', validators=[Required()])
-    size = DecimalField('Size [mm]', places=2,
-                        rounding=None, validators=[Required()])
+    size = IntegerField('Size [in]', validators=[Required()])
     submit = SubmitField('Submit')
 
 
 class LogForm(FlaskForm):
-    time = DateTimeField('Date and time', validators=[Required()],
-                         default=dt.datetime.now)
+    date = DateTimeField('Date and time', validators=[Required()],
+                         default=datetime.now)
     status = SelectField('Status',
-                         choices=[('open', 'open'), ('closed', 'closed')],
+                         choices=[('OPEN', 'OPEN'), ('CLOSED', 'CLOSED')],
                          validators=[Required()])
     submit = SubmitField('Submit')
