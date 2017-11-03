@@ -9,24 +9,25 @@
             <tr><td>Tag</td><td>{{ valve.tag }}</td></tr>
             <tr><td>Size</td><td>{{ valve.size }} in</td></tr>
             <tr><td>Location</td><td>{{ valve.location }}</td></tr>
-            <tr><td>Current Status</td><td>{{ valve.current_status }}</td></tr>
+            <tr><td>Current Status</td><td>{{ valve.status }}</td></tr>
         </table>
         <form method="post" action="{{ url_for('main.valve_delete', id=valve.id) }}">
             <button type="submit" class="btn btn-danger">Delete Valve</button>
         </form>
         <br>
-        <h1>Add a new log</h1>
+        <h1>Add a new action log</h1>
         <div>
             {{ wtf.quick_form(form) }}
         </div>
         <br>
         <h1>Logs</h1>
         <table class="table table-hover">
-            <thead><tr><th>Time</th><th>Status</th><th></th></tr></thead>
+            <thead><tr><th>Time</th><th>Status</th><th>Turns</th><th></th></tr></thead>
             {% for log in logs %}
                 <tr>
                     <td>{{ log.date }}</td>    
                     <td>{{ log.status }}</td>
+                    <td>{{ log.turns }}</td>
                     <td>
                         <form method="post" action="{{ url_for('main.log_delete', tag=valve.tag, log_id=log.id) }}">
                             <button type="submit" class="btn btn-danger">Delete</button>

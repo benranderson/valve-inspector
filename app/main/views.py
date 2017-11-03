@@ -20,15 +20,15 @@ def index():
 
 @main.route('/valve/<tag>', methods=['GET', 'POST'])
 def valve(tag):
-    form = LogForm()
     valve = Valve.query.filter_by(tag=tag).first()
+    form = LogForm()
     if form.validate_on_submit():
-        log = Log(date=form.date.data, status=form.status.data)
+        log = Log(date=form.date.data, status=form.status.data,
+                  turns=form.turns.data)
         log.valve = valve
         db.session.add(log)
         return redirect(url_for('.valve', tag=tag))
-    logs = valve.logs
-
+    logs = valve.logs.order_by(Log.date.desc())
     return render_template('valve.html', form=form, valve=valve, logs=logs)
 
 

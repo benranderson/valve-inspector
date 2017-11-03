@@ -15,9 +15,9 @@ class Valve(db.Model):
     __tablename__ = 'valves'
 
     id = db.Column(db.Integer, primary_key=True)
-    tag = db.Column(db.String, nullable=False, index=True, unique=True)
+    tag = db.Column(db.String(64), nullable=False, index=True, unique=True)
     size = db.Column(db.Integer)
-    location = db.Column(db.String)
+    location = db.Column(db.String(64))
     logs = db.relationship('Log', backref='valve', lazy='dynamic')
 
     def __repr__(self):
@@ -46,7 +46,7 @@ class Valve(db.Model):
         return self
 
     @property
-    def current_status(self):
+    def status(self):
         if len(self.logs.all()) > 0:
             return self.logs.all()[-1].status
         else:
@@ -59,8 +59,9 @@ class Log(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.DateTime, default=datetime.now)
+    status = db.Column(db.String(6), nullable=False)
+    turns = db.Column(db.Float)
     valve_id = db.Column(db.Integer, db.ForeignKey('valves.id'), index=True)
-    status = db.Column(db.String, nullable=False)
 
     def __repr__(self):
         return '<Log {}>'.format(self.status)
@@ -74,12 +75,15 @@ class Log(db.Model):
             'valve_url': self.valve.get_url(),
             'date':  self.date.isoformat() + 'Z',
             'status': self.status,
+            'turns': self.turns,
         }
 
     def import_data(self, data):
         try:
             self.date = datetime_parser.parse(data['date']).astimezone(
                 tzutc()).replace(tzinfo=None)
+            self.status = data['status']
+            self.turns = data['turns']
         except KeyError as e:
             raise ValidationError('Invalid log: missing ' + e.args[0])
         return self

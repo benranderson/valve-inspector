@@ -1,7 +1,7 @@
 from datetime import datetime
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, SubmitField, DateTimeField, \
-    SelectField
+    SelectField, DecimalField
 from wtforms.validators import Required
 
 
@@ -18,4 +18,10 @@ class LogForm(FlaskForm):
     status = SelectField('Status',
                          choices=[('OPEN', 'OPEN'), ('CLOSED', 'CLOSED')],
                          validators=[Required()])
+    turns = DecimalField('Number of turns', validators=[Required()])
     submit = SubmitField('Submit')
+
+    # def __init__(self, status):
+    #     super(LogForm, self).__init__()
+    #     self.status.default = status
+    #     self.process()
