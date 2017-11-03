@@ -29,13 +29,7 @@ def valve(tag):
         return redirect(url_for('.valve', tag=tag))
     logs = valve.logs
 
-    if len(logs.all()) > 0:
-        current_status = logs.all()[-1].status
-    else:
-        current_status = "No status logged"
-
-    return render_template('valve.html', form=form, valve=valve, logs=logs,
-                           current_status=current_status)
+    return render_template('valve.html', form=form, valve=valve, logs=logs)
 
 
 @main.route('/valve/<int:id>/delete', methods=['POST'])

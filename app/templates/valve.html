@@ -9,7 +9,7 @@
             <tr><td>Tag</td><td>{{ valve.tag }}</td></tr>
             <tr><td>Size</td><td>{{ valve.size }} in</td></tr>
             <tr><td>Location</td><td>{{ valve.location }}</td></tr>
-            <tr><td>Current Status</td><td>{{ current_status }}</td></tr>
+            <tr><td>Current Status</td><td>{{ valve.current_status }}</td></tr>
         </table>
         <form method="post" action="{{ url_for('main.valve_delete', id=valve.id) }}">
             <button type="submit" class="btn btn-danger">Delete Valve</button>

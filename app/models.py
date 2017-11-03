@@ -45,6 +45,13 @@ class Valve(db.Model):
             raise ValidationError('Invalid valve: missing ' + e.args[0])
         return self
 
+    @property
+    def current_status(self):
+        if len(self.logs.all()) > 0:
+            return self.logs.all()[-1].status
+        else:
+            return "No status logged"
+
 
 class Log(db.Model):
 
