@@ -2,7 +2,7 @@
 import os
 
 from app import create_app, db
-from app.models import Valve
+from app.models import Valve, User
 from flask_script import Manager, Shell, Server
 from flask_migrate import Migrate, MigrateCommand
 
@@ -16,7 +16,7 @@ TEST_PATH = os.path.join(PROJECT_ROOT, 'tests')
 
 
 def make_shell_context():
-    return dict(app=app, db=db, Valve=Valve)
+    return dict(app=app, db=db, User=User, Valve=Valve)
 
 
 manager.add_command("shell", Shell(make_context=make_shell_context))
