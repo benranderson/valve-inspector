@@ -2,13 +2,10 @@ from flask import Flask, jsonify, g
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-from flask_nav import Nav
-from flask_nav.elements import Navbar, View
 from config import config
 
 
 bootstrap = Bootstrap()
-nav = Nav()
 db = SQLAlchemy()
 
 login_manager = LoginManager()
@@ -26,7 +23,6 @@ def create_app(config_name):
 
     # initialize extensions
     bootstrap.init_app(app)
-    nav.init_app(app)
     db.init_app(app)
     login_manager.init_app(app)
 
@@ -39,12 +35,6 @@ def create_app(config_name):
 
     from .api_v1 import api as api_blueprint
     app.register_blueprint(api_blueprint, url_prefix='/api/v1')
-
-    # register navigation bar
-    nav.register_element('mynavbar', Navbar(
-        View('Valve Inspector', 'main.index'),
-        View('Login', 'auth.login')
-    ))
 
     # # authentication token route
     # from .auth import auth

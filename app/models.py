@@ -17,7 +17,7 @@ class Role(db.Model):
     users = db.relationship('User', backref='role', lazy='dynamic')
 
     def __repr__(self):
-        return '<Role %r>'.format(self.name)
+        return '<Role {}>'.format(self.name)
 
 class User(UserMixin, db.Model):
 
@@ -30,7 +30,7 @@ class User(UserMixin, db.Model):
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
 
     def __repr__(self):
-        return '<User %r>'.format(self.username)
+        return '<User {}>'.format(self.username)
 
     @property
     def password(self):
