@@ -1,5 +1,4 @@
-from flask import request, render_template, url_for, redirect, Response
-
+from flask import request, render_template, url_for, redirect, Response, flash
 from app.main import main
 from app.main.forms import ValveForm, LogForm
 from app import db
@@ -37,6 +36,7 @@ def valve_delete(id):
     valve = Valve.query.get_or_404(id)
     db.session.delete(valve)
     db.session.commit()
+    flash('Valve deleted.')
     return redirect(url_for('.index'))
 
 
