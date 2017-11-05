@@ -1,4 +1,4 @@
-from flask import jsonify, request, url_for, g
+from flask import jsonify, request
 from . import api
 from ..models import Valve, Log
 from .. import db

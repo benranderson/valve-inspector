@@ -21,8 +21,7 @@ def get_valve_logs(id):
 
 @api.route('/logs/<int:id>', methods=['GET'])
 def get_log(id):
-    log = Log.query.get_or_404(id)
-    return jsonify({Log.query.get_or_404(id).export_data()})
+    return jsonify(Log.query.get_or_404(id).export_data())
 
 
 @api.route('/valves/<int:id>/logs/', methods=['POST'])

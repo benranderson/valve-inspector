@@ -1,6 +1,5 @@
-from flask import Flask
+from flask import Flask, jsonify, g
 from flask_bootstrap import Bootstrap
-from flask_bootstrap import __version__ as FLASK_BOOTSTRAP_VERSION
 from flask_sqlalchemy import SQLAlchemy
 from flask_nav import Nav
 from flask_nav.elements import Navbar, View
@@ -36,5 +35,12 @@ def create_app(config_name):
     nav.register_element('mynavbar', Navbar(
         View('Valve Inspector', '.index')
     ))
+
+    # authentication token route
+    from .auth import auth
+    @app.route('/get-auth-token')
+    @auth.login_required
+    def get_auth_token():
+        return jsonify({'token': g.user.generate_auth_token()})
 
     return app
