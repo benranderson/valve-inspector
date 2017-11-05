@@ -7,6 +7,15 @@
     </div>
 
     <div class="container">
+        <p>
+        Hello,
+        {% if current_user.is_authenticated %}
+            {{ current_user.username }}
+        {% else %}
+            Stranger
+        {% endif %}
+        </p>
+
         <h1>Add a new valve</h1>
         <div>
             {{ wtf.quick_form(form) }}  

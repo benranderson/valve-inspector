@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: c3143b08493a
+Revision ID: 2f6e3519dfa4
 Revises: 
-Create Date: 2017-11-05 18:29:17.052514
+Create Date: 2017-11-05 22:29:30.774247
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'c3143b08493a'
+revision = '2f6e3519dfa4'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -29,13 +29,23 @@ def upgrade():
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_projects_number'), 'projects', ['number'], unique=False)
+    op.create_table('roles',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('name', sa.String(length=64), nullable=True),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('name')
+    )
     op.create_table('users',
     sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('email', sa.String(length=64), nullable=True),
     sa.Column('username', sa.String(length=64), nullable=True),
     sa.Column('password_hash', sa.String(length=128), nullable=True),
+    sa.Column('role_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['role_id'], ['roles.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_index(op.f('ix_users_username'), 'users', ['username'], unique=False)
+    op.create_index(op.f('ix_users_email'), 'users', ['email'], unique=True)
+    op.create_index(op.f('ix_users_username'), 'users', ['username'], unique=True)
     op.create_table('valves',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('tag', sa.String(length=64), nullable=False),
@@ -68,7 +78,9 @@ def downgrade():
     op.drop_index(op.f('ix_valves_project_id'), table_name='valves')
     op.drop_table('valves')
     op.drop_index(op.f('ix_users_username'), table_name='users')
+    op.drop_index(op.f('ix_users_email'), table_name='users')
     op.drop_table('users')
+    op.drop_table('roles')
     op.drop_index(op.f('ix_projects_number'), table_name='projects')
     op.drop_table('projects')
     # ### end Alembic commands ###
