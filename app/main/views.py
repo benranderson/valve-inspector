@@ -12,6 +12,7 @@ def index():
         valve = Valve(tag=form.tag.data, size=form.size.data,
                       location=form.location.data)
         db.session.add(valve)
+        flash('Valve added.')
         return redirect(url_for('.index'))
     valves = Valve.query.all()
     return render_template('index.html', form=form, valves=valves)
@@ -26,6 +27,7 @@ def valve(tag):
                   turns=form.turns.data)
         log.valve = valve
         db.session.add(log)
+        flash('Log added.')
         return redirect(url_for('.valve', tag=tag))
     logs = valve.logs.order_by(Log.date.desc())
     return render_template('valve.html', form=form, valve=valve, logs=logs)
@@ -45,4 +47,5 @@ def log_delete(tag, log_id):
     log = Log.query.get_or_404(log_id)
     db.session.delete(log)
     db.session.commit()
+    flash('Log deleted.')
     return redirect(url_for('.valve', tag=tag))

@@ -33,6 +33,6 @@ def register():
                     username=form.username.data,
                     password=form.password.data)
         db.session.add(user)
-        flash('You can now login.')
+        flash('You can now log in.')
         return redirect(url_for('auth.login'))
     return render_template('auth/register.html', form=form)
