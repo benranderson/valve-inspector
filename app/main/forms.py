@@ -13,7 +13,7 @@ class ValveForm(FlaskForm):
 
 
 class LogForm(FlaskForm):
-    date = DateTimeField('Date and time', validators=[Required()],
+    date = DateTimeField('Date and Time', validators=[Required()],
                          default=datetime.now)
     status = SelectField('Status',
                          choices=[('OPEN', 'OPEN'), ('CLOSED', 'CLOSED')],

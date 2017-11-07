@@ -11,9 +11,10 @@
             <tr><td>Location</td><td>{{ valve.location }}</td></tr>
             <tr><td>Current Status</td><td>{{ valve.status }}</td></tr>
         </table>
-        <form method="post" action="{{ url_for('main.valve_delete', id=valve.id) }}">
-            <button type="submit" class="btn btn-danger">Delete Valve</button>
-        </form>
+        <p>
+            <a href="{{ url_for('main.valve_delete', id=valve.id) }}"><button type="button" class="btn btn-danger">Delete Valve</button></a>
+            <a href="{{ url_for('main.valve_edit', id=valve.id) }}"><button type="button" class="btn btn-default">Edit Valve</button></a>
+        </p>
         <br>
         <h1>Add a new action log</h1>
         <div>
@@ -22,16 +23,15 @@
         <br>
         <h1>Logs</h1>
         <table class="table table-hover">
-            <thead><tr><th>Time</th><th>Status</th><th>Turns</th><th></th></tr></thead>
+            <thead><tr><th>Date and Time</th><th>Status</th><th>Turns</th><th></th></tr></thead>
             {% for log in logs %}
                 <tr>
                     <td>{{ log.date }}</td>    
                     <td>{{ log.status }}</td>
                     <td>{{ log.turns }}</td>
                     <td>
-                        <form method="post" action="{{ url_for('main.log_delete', tag=valve.tag, log_id=log.id) }}">
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
+                        <a href="{{ url_for('main.log_edit', valve_id=valve.id, log_id=log.id) }}"><button type="button" class="btn btn-default">Edit</button></a>
+                        <a href="{{ url_for('main.log_delete', valve_id=valve.id, log_id=log.id) }}"><button type="button" class="btn btn-danger">Delete</button></a>
                     </td>
                 </tr>
             {% endfor %}

@@ -8,16 +8,17 @@
 
     <div class="container">
         <p>
-        Hello,
+        Welcome,
         {% if current_user.is_authenticated %}
-            {{ current_user.username }}
+            {{ current_user.username }}.
         {% else %}
-            Stranger
+            New User.
         {% endif %}
         </p>
 
         <h1>Add a new valve</h1>
         <div>
+            {{ form.hidden_tag() }}
             {{ wtf.quick_form(form) }}  
         </div>
         <br>
@@ -26,14 +27,13 @@
             <thead><tr><th>Tag</th><th>Size</th><th>Location</th><th>Status</th><th></th></tr></thead>
             {% for valve in valves %}
                 <tr>
-                    <td><a href="{{ url_for('.valve', tag=valve.tag) }}"><button type="button" class="btn btn-primary">{{ valve.tag }}</button></a></td>    
+                    <td><a href="{{ url_for('.valve', id=valve.id) }}"><button type="button" class="btn btn-primary">{{ valve.tag }}</button></a></td>    
                     <td>{{ valve.size }} in</td>
                     <td>{{ valve.location }}</td>
                     <td>{{ valve.status }}</td>
                     <td>
-                        <form method="post" action="{{ url_for('main.valve_delete', id=valve.id) }}">
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
+                        <a href="{{ url_for('main.valve_edit', id=valve.id) }}"><button type="button" class="btn btn-default">Edit</button></a>
+                        <a href="{{ url_for('main.valve_delete', id=valve.id) }}"><button type="button" class="btn btn-danger">Delete</button></a>
                     </td>
                 </tr>
             {% endfor %}
