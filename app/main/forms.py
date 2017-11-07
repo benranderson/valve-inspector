@@ -1,8 +1,19 @@
 from datetime import datetime
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, SubmitField, DateTimeField, \
-    SelectField, DecimalField
+from wtforms import StringField, IntegerField, SubmitField, \
+    DateTimeField, SelectField, DecimalField
+from wtforms.fields.html5 import DateField
 from wtforms.validators import Required
+
+
+class ProjectForm(FlaskForm):
+    number = StringField('Number', validators=[Required()])
+    title = StringField('Title', validators=[Required()])
+    client = StringField('Client', validators=[Required()])
+    vessel = StringField('Vessel')
+    campaign = StringField('Campaign')
+    date = DateField('Date', format='%d-%m-%Y', default=datetime.now)
+    submit = SubmitField('Submit')
 
 
 class ValveForm(FlaskForm):
@@ -20,8 +31,3 @@ class LogForm(FlaskForm):
                          validators=[Required()])
     turns = DecimalField('Number of turns', validators=[Required()])
     submit = SubmitField('Submit')
-
-    # def __init__(self, status):
-    #     super(LogForm, self).__init__()
-    #     self.status.default = status
-    #     self.process()

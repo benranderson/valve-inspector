@@ -8,7 +8,7 @@ from config import config
 
 bootstrap = Bootstrap()
 db = SQLAlchemy()
-admin = Admin()
+admin = Admin(template_mode='bootstrap3')
 
 login_manager = LoginManager()
 login_manager.session_protection = 'strong'

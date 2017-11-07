@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block page_content %}
+    <div class="container">
+        <p><a href="{{ url_for('main.index') }}"><button type="button" class="btn btn-default">Back</button></a></p>
+        <h1>{{ heading }}</h1>
+        <div>
+            {{ wtf.quick_form(form) }}
+        </div>
+    </div>
+{% endblock %}
