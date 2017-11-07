@@ -2,10 +2,11 @@ from datetime import datetime
 from dateutil import parser as datetime_parser
 from dateutil.tz import tzutc
 from flask_login import UserMixin
+from flask_admin.contrib.sqla import ModelView
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import url_for, current_app
-from . import db, login_manager
+from . import db, login_manager, admin
 from .exceptions import ValidationError
 
 class Role(db.Model):
@@ -182,3 +183,8 @@ class Project(db.Model):
         except KeyError as e:
             raise ValidationError('Invalid project: missing ' + e.args[0])
         return self
+
+admin.add_view(ModelView(User, db.session))
+admin.add_view(ModelView(Valve, db.session))
+admin.add_view(ModelView(Log, db.session))
+admin.add_view(ModelView(Project, db.session))

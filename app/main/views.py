@@ -18,9 +18,9 @@ def index():
     return render_template('index.html', form=form, valves=valves)
 
 
-@main.route('/valve/<tag>', methods=['GET', 'POST'])
-def valve(tag):
-    valve = Valve.query.filter_by(tag=tag).first()
+@main.route('/valve/<int:id>', methods=['GET', 'POST'])
+def valve(id):
+    valve = Valve.query.get_or_404(id)
     form = LogForm()
     if form.validate_on_submit():
         log = Log(date=form.date.data, status=form.status.data,
@@ -28,9 +28,24 @@ def valve(tag):
         log.valve = valve
         db.session.add(log)
         flash('Log added.')
-        return redirect(url_for('.valve', tag=tag))
+        return redirect(url_for('.valve', id=id))
     logs = valve.logs.order_by(Log.date.desc())
     return render_template('valve.html', form=form, valve=valve, logs=logs)
+
+
+@main.route('/valve/<int:id>/edit', methods=['GET', 'POST'])
+def valve_edit(id):
+    valve = Valve.query.get_or_404(id)
+    form = ValveForm(obj=valve)
+    if form.validate_on_submit():
+        valve.tag = form.tag.data
+        valve.size = form.size.data
+        valve.location = form.location.data
+        db.session.add(valve)
+        flash('Valve updated.')
+        return redirect(url_for('.index'))
+    valves = Valve.query.all()
+    return render_template('index.html', form=form, valves=valves)
 
 
 @main.route('/valve/<int:id>/delete', methods=['POST'])
@@ -42,10 +57,26 @@ def valve_delete(id):
     return redirect(url_for('.index'))
 
 
-@main.route('/valve/<tag>/log/<int:log_id>/delete', methods=['POST'])
-def log_delete(tag, log_id):
+@main.route('/valve/<int:valve_id>/log/<int:log_id>/edit', methods=['GET', 'POST'])
+def log_edit(valve_id, log_id):
+    log = Log.query.get_or_404(log_id)
+    form = LogForm(obj=log)
+    if form.validate_on_submit():
+        log.date = form.date.data
+        log.status = form.status.data
+        log.turns = form.turns.data
+        db.session.add(log)
+        flash('Log updated.')
+        return redirect(url_for('.valve', id=valve_id))
+    valve = Valve.query.get_or_404(valve_id)
+    logs = valve.logs.order_by(Log.date.desc())
+    return render_template('valve.html', form=form, valve=valve, logs=logs)
+
+
+@main.route('/valve/<int:valve_id>/log/<int:log_id>/delete', methods=['GET', 'POST'])
+def log_delete(valve_id, log_id):
     log = Log.query.get_or_404(log_id)
     db.session.delete(log)
     db.session.commit()
     flash('Log deleted.')
-    return redirect(url_for('.valve', tag=tag))
+    return redirect(url_for('.valve', id=valve_id))
