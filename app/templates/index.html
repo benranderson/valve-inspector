@@ -15,14 +15,34 @@
             New User.
         {% endif %}
         </p>
-
-        <h1>Add a new valve</h1>
-        <div>
-            {{ form.hidden_tag() }}
-            {{ wtf.quick_form(form) }}  
+        <br>
+        <div class="col-sm-10"><h1>Projects</h1></div>
+        <br>
+        <div class="col-sm-2">
+            <a href="{{ url_for('.project_add') }}"><button type="button" class="btn btn-success">Add a new project</button></a>
         </div>
         <br>
-        <h1>Valves</h1>
+        <table class="table table-hover">
+            <br>
+            <thead><tr><th>Number</th><th>Title</th><th>Client</th><th></th></tr></thead>
+            {% for project in projects %}
+                <tr>
+                    <td><a href="{{ url_for('.project', id=project.id) }}"><button type="button" class="btn btn-primary">{{ project.number }}</button></a></td>    
+                    <td>{{ project.title }}</td>
+                    <td>{{ project.client }}</td>
+                    <td>
+                        <a href="{{ url_for('main.project_edit', id=project.id) }}"><button type="button" class="btn btn-default">Edit</button></a>
+                        <a href="{{ url_for('main.project_delete', id=project.id) }}"><button type="button" class="btn btn-danger">Delete</button></a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        <br>
+        <div class="col-sm-10"><h1>Valves</h1></div>
+        <br>
+        <div class="col-sm-2">
+            <a href="{{ url_for('.valve_add') }}"><button type="button" class="btn btn-success">Add a new valve</button></a>
+        </div>
         <table class="table table-hover">
             <thead><tr><th>Tag</th><th>Size</th><th>Location</th><th>Status</th><th></th></tr></thead>
             {% for valve in valves %}

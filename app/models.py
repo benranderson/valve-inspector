@@ -185,6 +185,6 @@ class Project(db.Model):
         return self
 
 admin.add_view(ModelView(User, db.session))
+admin.add_view(ModelView(Project, db.session))
 admin.add_view(ModelView(Valve, db.session))
 admin.add_view(ModelView(Log, db.session))
-admin.add_view(ModelView(Project, db.session))

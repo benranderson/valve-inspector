@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block page_content %}
+    <div class="container">
+        <p><a href="{{ url_for('main.index') }}"><button type="button" class="btn btn-default">Back</button></a></p>
+        <h1>Project Details</h1>
+        <table class="table table-hover">
+            <tr><td>Number</td><td>{{ project.number }}</td></tr>
+            <tr><td>Title</td><td>{{ project.title }}</td></tr>
+            <tr><td>Client</td><td>{{ project.client }}</td></tr>
+            <tr><td>Vessel</td><td>{{ project.vessel }}</td></tr>
+            <tr><td>Campaign</td><td>{{ project.campaign }}</td></tr>
+            <tr><td>Date</td><td>{{ project.date }}</td></tr>
+        </table>
+        <p>
+            <a href="{{ url_for('main.project_delete', id=project.id) }}"><button type="button" class="btn btn-danger">Delete project</button></a>
+            <a href="{{ url_for('main.project_edit', id=project.id) }}"><button type="button" class="btn btn-default">Edit project</button></a>
+        </p>
+    </div>
+{% endblock %}
