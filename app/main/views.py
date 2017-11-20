@@ -11,8 +11,8 @@ def index():
     projects = Project.query.all()
     valves = Valve.query.all()
     return render_template('index.html', projects=projects, valves=valves)
-                           
-                           
+
+
 @main.route('/valve/add', methods=['GET', 'POST'])
 def valve_add():
     form = ValveForm()
