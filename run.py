@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import os
-from flask_migrate import Migrate
+from flask_migrate import Migrate, upgrade
 from app import create_app, db
 from app.models import Valve, User
 
@@ -28,7 +28,6 @@ def test(cov=False):
 @app.cli.command()
 def deploy():
     """Run deployment tasks."""
-    from flask_migrate import upgrade
     # migrate database to latest revision
     upgrade()
 
@@ -43,4 +42,3 @@ def clean():
                 full_pathname = os.path.join(dirpath, filename)
                 print('Removing {}'.format(full_pathname))
                 os.remove(full_pathname)
-    
