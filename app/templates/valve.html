@@ -16,12 +16,13 @@
             <a href="{{ url_for('main.valve_edit', id=valve.id) }}"><button type="button" class="btn btn-default">Edit Valve</button></a>
         </p>
         <br>
-        <h1>Add a new action log</h1>
+        <h1>Logs</h1>
+        <h2>Add a new action log</h2>
         <div>
             {{ wtf.quick_form(form) }}
         </div>
         <br>
-        <h1>Logs</h1>
+        <h2>History</h2>
         <table class="table table-hover">
             <thead><tr><th>Date</th><th>Time</th><th>Status</th><th>Turns</th><th></th></tr></thead>
             {% for log in logs %}

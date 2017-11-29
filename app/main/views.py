@@ -79,12 +79,18 @@ def project_delete(id):
 @main.route('/valve/<int:id>', methods=['GET', 'POST'])
 def valve(id):
     valve = Valve.query.get_or_404(id)
+    # latest_log = Log.query.filter_by(
+    #     valve=valve).order_by(Log.date.desc()).first()
     form = LogForm()
+    # form.status.default = latest_log.status
+    # form.turns.default = latest_log.turns
+    # form.process()
     if form.validate_on_submit():
         log = Log(date=form.date.data, status=form.status.data,
                   turns=form.turns.data)
         log.valve = valve
         db.session.add(log)
+        db.session.commit()
         flash('Log added.')
         return redirect(url_for('.valve', id=id))
     logs = valve.logs.order_by(Log.date.desc())
@@ -100,6 +106,7 @@ def valve_edit(id):
         valve.size = form.size.data
         valve.location = form.location.data
         db.session.add(valve)
+        db.session.commit()
         flash('Valve updated.')
         return redirect(url_for('.index'))
     heading = "Edit Valve"
@@ -124,6 +131,7 @@ def log_edit(valve_id, log_id):
         log.status = form.status.data
         log.turns = form.turns.data
         db.session.add(log)
+        db.session.commit()
         flash('Log updated.')
         return redirect(url_for('.valve', id=valve_id))
     valve = Valve.query.get_or_404(valve_id)

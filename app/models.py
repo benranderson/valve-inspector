@@ -2,12 +2,14 @@ from datetime import datetime
 from dateutil import parser as datetime_parser
 from dateutil.tz import tzutc
 from flask_login import UserMixin
+from flask_admin import BaseView, expose
 from flask_admin.contrib.sqla import ModelView
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import url_for, current_app
 from . import db, login_manager, admin
 from .exceptions import ValidationError
+
 
 class Role(db.Model):
 
@@ -19,6 +21,7 @@ class Role(db.Model):
 
     def __repr__(self):
         return '<Role {}>'.format(self.name)
+
 
 class User(UserMixin, db.Model):
 
@@ -57,9 +60,11 @@ class User(UserMixin, db.Model):
             return None
         return User.query.get(data['id'])
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
 
 class Valve(db.Model):
 
@@ -70,7 +75,8 @@ class Valve(db.Model):
     size = db.Column(db.Integer)
     location = db.Column(db.String(64))
     logs = db.relationship('Log', backref='valve', lazy='dynamic')
-    project_id = db.Column(db.Integer, db.ForeignKey('projects.id'), index=True)
+    project_id = db.Column(
+        db.Integer, db.ForeignKey('projects.id'), index=True)
 
     def __repr__(self):
         return '<Valve {}>'.format(self.tag)
@@ -140,6 +146,7 @@ class Log(db.Model):
             raise ValidationError('Invalid log: missing ' + e.args[0])
         return self
 
+
 class Project(db.Model):
 
     __tablename__ = 'projects'
@@ -183,6 +190,13 @@ class Project(db.Model):
         except KeyError as e:
             raise ValidationError('Invalid project: missing ' + e.args[0])
         return self
+
+
+class MyView(BaseView):
+    @expose('/')
+    def index(self):
+        return 'Hello World!'
+
 
 admin.add_view(ModelView(User, db.session))
 admin.add_view(ModelView(Project, db.session))
