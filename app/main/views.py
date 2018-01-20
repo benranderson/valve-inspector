@@ -46,7 +46,8 @@ def project_add():
 @main.route('/project/<int:id>', methods=['GET', 'POST'])
 def project(id):
     project = Project.query.get_or_404(id)
-    return render_template('project.html', project=project)
+    valves = project.valves.order_by(Valve.tag.desc())
+    return render_template('project.html', project=project, valves=valves)
 
 
 @main.route('/project/<int:id>/edit', methods=['GET', 'POST'])
